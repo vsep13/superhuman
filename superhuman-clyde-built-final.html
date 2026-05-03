@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhuman — Clyde Built</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;700;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Industrial Ink & Safety Orange Palette */
+            --bg:      #0D0D0D;   /* Inky Obsidian */
+            --surface: #1A1A1A;   /* Bedrock Surface */
+            --fg:      #F2F0E9;   /* Warm Newsprint / Bone */
+            --accent:  #FF4D00;   /* Clyde Safety Orange */
+            --light:   #FFFFFF;   /* Pure White */
+            --border:  rgba(255, 77, 0, 0.15);
+            --muted:   rgba(242, 240, 233, 0.4);
+            
+            --font-display: 'Instrument Serif', serif;
+            --font-ui: 'Outfit', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --gutters: clamp(1.5rem, 5vw, 4rem);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Subtle Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.05; pointer-events: none; z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        header.masthead {
+            padding: 1.5rem var(--gutters);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+
+        .logo-svg { height: 32px; width: auto; }
+        .logo-svg path { fill: var(--accent); }
+
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-link {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: var(--accent); }
+
+        /* Hero */
+        .hero {
+            padding: 8rem var(--gutters) 6rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-art { grid-column: 1 / 7; }
+        .hero-art img {
+            width: 100%; height: auto;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+        }
+
+        .hero-content { grid-column: 7 / 13; }
+        .headline {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 10vw, 10rem);
+            font-weight: 400;
+            line-height: 0.8;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+
+        .dek {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--fg);
+            line-height: 1.25;
+            margin-bottom: 4rem;
+            max-width: 550px;
+        }
+
+        /* Narrative Grid */
+        .article-grid {
+            padding: 0 var(--gutters) 10rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 6rem;
+        }
+
+        .main-col { grid-column: 1 / 9; }
+        .side-col { grid-column: 9 / 13; }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.2em;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            width: 4.5rem;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 0.95;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+
+        p { font-size: 1.35rem; color: var(--muted); margin-bottom: 2.5rem; font-weight: 300; }
+
+        /* Review Blocks */
+        .review-block {
+            margin: 5rem 0;
+            padding: 3.5rem;
+            background: var(--surface);
+            border-left: 4px solid var(--accent);
+        }
+
+        .review-quote {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            color: var(--light);
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            font-style: italic;
+        }
+
+        .review-source {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 10rem var(--gutters);
+            border-top: 1px solid var(--border);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .video-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-card iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+
+        .video-title {
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--fg);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Architects */
+        .architects-section {
+            padding: 10rem var(--gutters);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .architects-grid {
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 5rem;
+        }
+
+        .portraits-col {
+            grid-column: 1 / 6; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+
+        .portrait-frame {
+            aspect-ratio: 4/5; overflow: hidden; border: 1px solid var(--border);
+            background: #000;
+        }
+
+        .portrait-frame img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(1) contrast(1.2) brightness(0.85);
+            transition: filter 0.4s ease;
+        }
+        .portrait-frame:hover img { filter: grayscale(0) contrast(1.1); }
+
+        .portrait-name {
+            font-family: var(--font-display); font-size: 2rem; margin-top: 1.5rem; color: var(--light);
+        }
+
+        .bio-col { grid-column: 7 / 13; }
+
+        /* Buy Module */
+        .buy-box {
+            background: var(--bg); padding: 3.5rem; border: 1px solid var(--border);
+            position: sticky; top: 8rem;
+        }
+
+        .price-tag {
+            font-family: var(--font-mono); font-size: 2.5rem; color: var(--light); display: block; margin: 2rem 0;
+        }
+
+        .btn {
+            display: block; background: var(--accent); color: var(--bg); text-align: center;
+            padding: 1.5rem; text-decoration: none; font-family: var(--font-mono); font-weight: 700;
+            text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.2em; transition: 0.2s;
+        }
+        .btn:hover { background: var(--light); transform: translateY(-3px); }
+
+        .streaming-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 2rem;
+        }
+
+        .stream-link {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-decoration: none;
+            border: 1px solid var(--border); padding: 1rem; text-align: center; transition: 0.2s;
+            letter-spacing: 0.1em;
+        }
+        .stream-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(255, 77, 0, 0.05); }
+
+        /* Secondary Release */
+        .secondary-release { padding: 10rem var(--gutters); background: rgba(18, 20, 23, 0.4); }
+        .release-split {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: center;
+            max-width: 1200px; margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 8rem var(--gutters); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+
+        .footer-logo-svg {
+            height: 48px;
+            width: auto;
+            margin-bottom: 2rem;
+        }
+        .footer-logo-svg path {
+            fill: var(--accent);
+        }
+
+        @media (max-width: 1024px) {
+            .hero, .article-grid, .architects-grid, .release-split, .video-grid { grid-template-columns: 1fr; }
+            .hero-art, .hero-content, .main-col, .side-col, .portraits-col, .bio-col { grid-column: 1 / -1; }
+            .buy-box { position: static; margin-top: 4rem; }
+            .hero-art { order: 2; } .hero-content { order: 1; margin-bottom: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="masthead">
+        <a href="#" class="logo">
+            <svg class="logo-svg" width="367" height="71" viewBox="0 0 367 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M38.5835 40.222C38.5835 38.3271 37.0448 36.7885 35.15 36.7885C33.2552 36.7885 31.7166 38.3271 31.7166 40.222V46.946H1.23585C1.43148 59.1955 11.4203 69.0674 23.7204 69.0674H46.5797C59.0022 69.0674 69.0675 58.9981 69.0675 46.5798C69.0675 34.2784 59.1994 24.2854 46.9459 24.0898V46.946H38.5835V40.222ZM39.316 46.2135H46.2134V23.3541H46.5797C59.4069 23.3541 69.8 33.7517 69.8 46.5798C69.8 59.4026 59.4068 69.8 46.5797 69.8H23.7204C10.8932 69.8 0.500033 59.4026 0.5 46.5798V46.2135H30.984V40.222C30.984 37.9226 32.8506 36.056 35.15 36.056C37.4494 36.056 39.316 37.9226 39.316 40.222V46.2135Z" fill="currentColor"/>
+                <path d="M30.984 30.2659V24.0867H24.0867V46.9459H23.7204C10.8931 46.9459 0.500023 36.5474 0.5 23.7204C0.5 10.8932 10.8932 0.5 23.7204 0.5H46.5797C59.4068 0.5 69.8 10.8975 69.8 23.7204V24.0867H39.316V30.2659C39.316 32.5653 37.4494 34.4319 35.15 34.4319C32.8506 34.4319 30.984 32.5653 30.984 30.2659ZM1.23256 23.7204C1.23258 36.0207 11.1007 46.0145 23.3541 46.2101V23.3541H31.7166V30.2659C31.7166 32.1607 33.2552 33.6994 35.15 33.6994C37.0448 33.6994 38.5835 32.1607 38.5835 30.2659V23.3541H69.0642C68.8686 11.1046 58.8798 1.23256 46.5797 1.23256H23.7204C11.2978 1.23256 1.23256 11.2978 1.23256 23.7204Z" fill="currentColor"/>
+                <path d="M107.272 48.004C100.036 48.004 96.58 43.972 96.292 38.788H99.46C99.892 43.144 102.556 45.412 107.416 45.412C110.98 45.412 113.536 43.792 113.536 40.588C113.536 37.06 110.44 36.232 105.832 35.224C101.296 34.216 97.408 32.92 97.408 28.06C97.408 23.812 100.936 21.256 106.156 21.256C112.6 21.256 115.264 24.532 115.912 29.284H112.852C112.384 25.612 110.008 23.776 106.228 23.776C102.736 23.776 100.432 25.252 100.432 27.916C100.432 30.832 103.312 31.696 107.164 32.452C112.168 33.46 116.74 34.684 116.74 40.48C116.74 45.304 112.816 48.004 107.272 48.004ZM133.831 47.896C128.215 47.896 123.967 45.412 123.967 39.184V21.76L127.207 21.76V38.86C127.207 43.252 129.691 45.124 133.939 45.124C138.007 45.124 140.455 43.252 140.455 38.86V21.76H143.695V39.184C143.695 45.412 139.339 47.896 133.831 47.896ZM151.694 47.5V21.76L162.422 21.76C165.122 21.76 167.21 22.66 168.542 24.244C169.622 25.504 170.27 27.196 170.27 29.14C170.27 33.856 167.57 36.7 161.954 36.7H154.934V47.5H151.694ZM154.934 24.568V34.072H161.702C165.338 34.072 167.066 32.236 167.066 29.284C167.066 26.188 165.158 24.568 161.882 24.568L154.934 24.568ZM176.985 47.5V21.76H195.165V24.604H180.225V32.74H193.797V35.476H180.225V44.512H195.597V47.5H176.985ZM202.98 47.5V21.76L215.004 21.76C219.54 21.76 222.6 24.604 222.6 28.816C222.6 31.948 221.232 34.18 218.136 35.188V35.296C220.764 36.232 221.592 38.032 221.844 41.848C222.132 45.988 222.564 47.032 223.032 47.356V47.5H219.54C219 47.032 218.892 46.06 218.604 41.74C218.352 37.96 216.84 36.628 213.384 36.628H206.22V47.5L202.98 47.5ZM206.22 24.568V34H213.852C217.452 34 219.252 32.2 219.252 29.284C219.252 26.152 217.812 24.568 214.032 24.568L206.22 24.568ZM230.135 47.5V21.76H233.375V32.704L247.127 32.704V21.76H250.367V47.5L247.127 47.5V35.332L233.375 35.332V47.5H230.135ZM268.233 47.896C262.617 47.896 258.369 45.412 258.369 39.184V21.76L261.609 21.76V38.86C261.609 43.252 264.093 45.124 268.341 45.124C272.409 45.124 274.857 43.252 274.857 38.86V21.76H278.097V39.184C278.097 45.412 273.741 47.896 268.233 47.896ZM286.096 47.5V21.76H290.236L298.588 43.144H298.66L306.94 21.76H311.152V47.5H308.056V26.332H307.984C307.984 26.332 307.3 28.348 306.832 29.572L299.776 47.5H297.292L290.236 29.572C289.732 28.276 289.084 26.332 289.084 26.332H289.012V47.5H286.096ZM317.527 47.5L326.995 21.76L330.631 21.76L340.135 47.5L336.607 47.5L333.871 39.652L323.611 39.652L320.839 47.5H317.527ZM327.607 28.384L324.547 37.024L332.971 37.024L330.019 28.384C329.515 26.944 328.867 24.748 328.867 24.748H328.795C328.795 24.748 328.111 26.908 327.607 28.384ZM346.523 47.5V21.76L349.943 21.76L361.679 39.652C362.543 40.984 363.551 42.964 363.551 42.964H363.623V21.76H366.647V47.5H363.335L351.527 29.572C350.699 28.312 349.619 26.368 349.619 26.368H349.547V47.5H346.523Z" fill="currentColor"/>
+            </svg>
+        </a>
+        <nav class="nav-links">
+            <a href="#story" class="nav-link">The Story</a>
+            <a href="#videos" class="nav-link">Videos</a>
+            <a href="#architects" class="nav-link">Architects</a>
+            <a href="#discography" class="nav-link">Discography</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-art">
+            <img src="mopg95j7-superhuman-forgotten-playgrounds-vinyl-lp-lossless-dl-6687239_1000x.webp" alt="Forgotten Playgrounds Artwork">
+        </div>
+        <div class="hero-content">
+            <span class="category-pill">LNFG162 — LP RELEASE</span>
+            <h1 class="headline">The echoes of forgotten playgrounds</h1>
+            <p class="dek">A sonic archaeology of 1970s Clydebank, exploring industrial nostalgia and the "uneasy calm" of a landscape lost to time.</p>
+            <a href="https://shop.lastnightfromglasgow.com/products/superhuman-forgotten-playgrounds-vinyl-lp-lossless-dl" target="_blank" class="btn" style="width: fit-content; padding-left: 4rem; padding-right: 4rem;">ORDER VINYL COPY</a>
+            <div class="streaming-grid">
+                <a href="https://open.spotify.com/album/0pZ6y2WjoA1kVqFszSqtTo?si=SB87IieOSxSHhe3fJyZfNA" target="_blank" class="stream-link">SPOTIFY</a>
+                <a href="https://music.apple.com/gb/album/forgotten-playgrounds/1781973703" target="_blank" class="stream-link">APPLE MUSIC</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="article-grid" id="story">
+        <main class="main-col">
+            <span class="section-tag">CLYDE BUILT</span>
+            <h2>Industrial nostalgia as an ethos</h2>
+            <p>For Gregor Reid and Paul Humphreys, the industrial geography of the West of Scotland is fundamental to their sound. Clydebank is where they were born and where they played. It isn't just a location; it's the specific atmosphere of meeting under the clock at Sylvania Way or venturing to the "new" cinema for a first McDonald's—feeling like American teenagers in an industrial heartland.</p>
+            
+            <p>From the freezing Victorian bathhouses with their perfect hot soup vending machines to the strange advances of a childhood lived near the nuclear deterrents of Faslane, the album captures the feeling of a childhood lived with the constant, quiet knowledge that annihilation was only ever three minutes away.</p>
+
+            <div class="review-block">
+                <p class="review-quote">"Beautifully balanced, cinematic and melodic. A record that captures a specific frequency of memory."</p>
+                <span class="review-source">Stephen Pastel, Monorail Music</span>
+            </div>
+
+            <span class="section-tag">GEOMETRY</span>
+            <h2>The climbing frame at the center</h2>
+            <p>The album art features a sculpture by Scottish artist Charles Anderson, a permanent fixture of 1970s Glasgow urban design. To the kids of Clydebank, it wasn't "Brutalist art" — it was a climbing frame. Every child attempted to scale its smooth, futuristic slopes before sliding back down to the geometric floors.</p>
+            
+            <p>Anderson’s murals and sculptures were a gift to the town, geometric wonders that live large in the collective memory. Sadly, where the sculpture on the cover once stood, there is now only the sterile blandness of a modern mall development.</p>
+
+            <div class="pull-quote">
+                "We wanted to create a unified whole, like chapters of the same book—an uneasy calm that lets the music breathe."
+            </div>
+
+            <span class="section-tag">PIFS</span>
+            <h2>The spirit of dark and lonely water</h2>
+            <p>The record draws heavily on the overtly sinister Public Information Films of the late 70s. The tension in tracks like <i>Play Safe</i> and <i>Dead Man's Fall</i> reflects the nightmare-inducing films that warned children away from electricity substations and reservoirs.</p>
+            
+            <p>Mixing analogue synthesizers and programable drum machines with organic acoustic textures, field recordings, and found sounds, Superhuman captures the soundtrack of an era—exciting technological advances filtered through a lingering sense of doom.</p>
+
+            <div class="review-block">
+                <p class="review-quote">"A hauntological masterpiece of industrial nostalgia and the uneasy calm of the Clyde."</p>
+                <span class="review-source">The Haunted Generation</span>
+            </div>
+        </main>
+
+        <aside class="side-col" id="buy">
+            <div class="buy-box">
+                <span class="section-tag">ECO-GRIND</span>
+                <h3>The unique artifact</h3>
+                <p style="font-size: 0.9rem;">Pressed from reclaimed manufacturing material, every LP is a unique "lucky dip" of color and marbling. No two listeners hold the same record.</p>
+                <span class="price-tag">£26.00</span>
+                <a href="https://shop.lastnightfromglasgow.com/products/superhuman-forgotten-playgrounds-vinyl-lp-lossless-dl" target="_blank" class="btn">SECURE LP</a>
+            </div>
+            
+            <div style="margin-top: 4rem; border-left: 1px solid var(--border); padding-left: 2rem;">
+                <span class="section-tag">CHAPTER LIST</span>
+                <ul style="list-style: none; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); line-height: 2.2;">
+                    <li>01 Forgotten Playgrounds</li>
+                    <li>02 Dead Man's Fall</li>
+                    <li>03 Fair Fortnight</li>
+                    <li>04 Sylvania Way</li>
+                    <li>05 Play Safe</li>
+                    <li>06 Words And Pictures</li>
+                    <li>07 Nimbus Child</li>
+                    <li>08 Twin Town</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <section class="video-section" id="videos">
+        <span class="section-tag">VISUAL CHANNELS</span>
+        <h2>Moving images</h2>
+        <div class="video-grid">
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/cAu9HzsuvNg" allowfullscreen></iframe>
+                <div class="video-title">The Qualifying Dance</div>
+            </div>
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/NrNG7GXHemc" allowfullscreen></iframe>
+                <div class="video-title">Forgotten Playgrounds</div>
+            </div>
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/Tb-Z75v6Odc" allowfullscreen></iframe>
+                <div class="video-title">In Search of a Soul</div>
+            </div>
+            <div class="video-card">
+                <iframe src="https://www.youtube.com/embed/O-VfpYHy4Kg" allowfullscreen></iframe>
+                <div class="video-title">Utopia or Oblivion</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="architects-section" id="architects">
+        <div class="architects-grid">
+            <div class="portraits-col">
+                <div>
+                    <div class="portrait-frame"><img src="mopgu6ro-Superhuman-Paul.jpg" alt="Paul Humphreys"></div>
+                    <div class="portrait-name">Paul Humphreys</div>
+                </div>
+                <div>
+                    <div class="portrait-frame"><img src="mopgu6dv-Superhuman-Gregor.jpg" alt="Gregor Reid"></div>
+                    <div class="portrait-name">Gregor Reid</div>
+                </div>
+            </div>
+            <div class="bio-col">
+                <span class="section-tag">ARCHITECTS</span>
+                <h2>Clyde Built</h2>
+                <p><b>Paul Humphreys</b> is a prolific Art Director and Motion Designer, shaping the project's precise visual aesthetic. <b>Gregor Reid</b> is an established Producer, having shaped institutional records for <b>Belle and Sebastian</b> and <b>The Pastels</b>.</p>
+                <p>Together, they combine a shared love of arpeggiated synths and industrial precision with organic acoustic textures. Their influences continue to evolve, from Brian Eno and jazz to the cinematic soundtracks and Public Information Films of their youth.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="secondary-grid" id="discography">
+        <div class="release-split">
+            <div class="release-info">
+                <span class="section-tag">EP RELEASE</span>
+                <h2>The effects of noise on man</h2>
+                <p>The 2021 EP that started the journey. A sonic exploration through inner space, mixing live instrumentation with analogue synths to capture instrumental music that borders on the cinematic and the sinister.</p>
+                <div style="display: flex; gap: 2rem; margin-top: 3rem;">
+                    <a href="https://shop.lastnightfromglasgow.com/products/superhuman-the-effects-of-noise-on-man" target="_blank" class="btn" style="flex: 1;">ORDER CD — £4.00</a>
+                    <a href="https://lastnightfromglasgow.com/komponist/" target="_blank" class="btn" style="flex: 1; background: transparent; border: 1px solid var(--accent); color: var(--accent);">KOMPONIST IMPRINT</a>
+                </div>
+                <div class="streaming-grid" style="margin-top: 2rem;">
+                    <a href="https://open.spotify.com/album/5fvpMb3K0ckbP3hie40EE3?si=Xt88FpqHTIWFuI142NkG7g" target="_blank" class="stream-link">SPOTIFY</a>
+                    <a href="https://music.apple.com/gb/album/the-effects-of-noise-on-man-ep/1616956456" target="_blank" class="stream-link">APPLE MUSIC</a>
+                </div>
+            </div>
+            <div style="box-shadow: 0 40px 80px rgba(0,0,0,0.6); order: -1;">
+                <img src="mopg95jg-superhuman-the-effects-of-noise-on-man-5448935_800x.webp" style="width: 100%; border: 1px solid var(--border); display: block;" alt="TENOM Art">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <svg class="footer-logo-svg" width="367" height="71" viewBox="0 0 367 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M38.5835 40.222C38.5835 38.3271 37.0448 36.7885 35.15 36.7885C33.2552 36.7885 31.7166 38.3271 31.7166 40.222V46.946H1.23585C1.43148 59.1955 11.4203 69.0674 23.7204 69.0674H46.5797C59.0022 69.0674 69.0675 58.9981 69.0675 46.5798C69.0675 34.2784 59.1994 24.2854 46.9459 24.0898V46.946H38.5835V40.222ZM39.316 46.2135H46.2134V23.3541H46.5797C59.4069 23.3541 69.8 33.7517 69.8 46.5798C69.8 59.4026 59.4068 69.8 46.5797 69.8H23.7204C10.8932 69.8 0.500033 59.4026 0.5 46.5798V46.2135H30.984V40.222C30.984 37.9226 32.8506 36.056 35.15 36.056C37.4494 36.056 39.316 37.9226 39.316 40.222V46.2135Z" fill="currentColor"/>
+                <path d="M30.984 30.2659V24.0867H24.0867V46.9459H23.7204C10.8931 46.9459 0.500023 36.5474 0.5 23.7204C0.5 10.8932 10.8932 0.5 23.7204 0.5H46.5797C59.4068 0.5 69.8 10.8975 69.8 23.7204V24.0867H39.316V30.2659C39.316 32.5653 37.4494 34.4319 35.15 34.4319C32.8506 34.4319 30.984 32.5653 30.984 30.2659ZM1.23256 23.7204C1.23258 36.0207 11.1007 46.0145 23.3541 46.2101V23.3541H31.7166V30.2659C31.7166 32.1607 33.2552 33.6994 35.15 33.6994C37.0448 33.6994 38.5835 32.1607 38.5835 30.2659V23.3541H69.0642C68.8686 11.1046 58.8798 1.23256 46.5797 1.23256H23.7204C11.2978 1.23256 1.23256 11.2978 1.23256 23.7204Z" fill="currentColor"/>
+                <path d="M107.272 48.004C100.036 48.004 96.58 43.972 96.292 38.788H99.46C99.892 43.144 102.556 45.412 107.416 45.412C110.98 45.412 113.536 43.792 113.536 40.588C113.536 37.06 110.44 36.232 105.832 35.224C101.296 34.216 97.408 32.92 97.408 28.06C97.408 23.812 100.936 21.256 106.156 21.256C112.6 21.256 115.264 24.532 115.912 29.284H112.852C112.384 25.612 110.008 23.776 106.228 23.776C102.736 23.776 100.432 25.252 100.432 27.916C100.432 30.832 103.312 31.696 107.164 32.452C112.168 33.46 116.74 34.684 116.74 40.48C116.74 45.304 112.816 48.004 107.272 48.004ZM133.831 47.896C128.215 47.896 123.967 45.412 123.967 39.184V21.76L127.207 21.76V38.86C127.207 43.252 129.691 45.124 133.939 45.124C138.007 45.124 140.455 43.252 140.455 38.86V21.76H143.695V39.184C143.695 45.412 139.339 47.896 133.831 47.896ZM151.694 47.5V21.76L162.422 21.76C165.122 21.76 167.21 22.66 168.542 24.244C169.622 25.504 170.27 27.196 170.27 29.14C170.27 33.856 167.57 36.7 161.954 36.7H154.934V47.5H151.694ZM154.934 24.568V34.072H161.702C165.338 34.072 167.066 32.236 167.066 29.284C167.066 26.188 165.158 24.568 161.882 24.568L154.934 24.568ZM176.985 47.5V21.76H195.165V24.604H180.225V32.74H193.797V35.476H180.225V44.512H195.597V47.5H176.985ZM202.98 47.5V21.76L215.004 21.76C219.54 21.76 222.6 24.604 222.6 28.816C222.6 31.948 221.232 34.18 218.136 35.188V35.296C220.764 36.232 221.592 38.032 221.844 41.848C222.132 45.988 222.564 47.032 223.032 47.356V47.5H219.54C219 47.032 218.892 46.06 218.604 41.74C218.352 37.96 216.84 36.628 213.384 36.628H206.22V47.5L202.98 47.5ZM206.22 24.568V34H213.852C217.452 34 219.252 32.2 219.252 29.284C219.252 26.152 217.812 24.568 214.032 24.568L206.22 24.568ZM230.135 47.5V21.76H233.375V32.704L247.127 32.704V21.76H250.367V47.5L247.127 47.5V35.332L233.375 35.332V47.5H230.135ZM268.233 47.896C262.617 47.896 258.369 45.412 258.369 39.184V21.76L261.609 21.76V38.86C261.609 43.252 264.093 45.124 268.341 45.124C272.409 45.124 274.857 43.252 274.857 38.86V21.76H278.097V39.184C278.097 45.412 273.741 47.896 268.233 47.896ZM286.096 47.5V21.76H290.236L298.588 43.144H298.66L306.94 21.76H311.152V47.5H308.056V26.332H307.984C307.984 26.332 307.3 28.348 306.832 29.572L299.776 47.5H297.292L290.236 29.572C289.732 28.276 289.084 26.332 289.084 26.332H289.012V47.5H286.096ZM317.527 47.5L326.995 21.76L330.631 21.76L340.135 47.5L336.607 47.5L333.871 39.652L323.611 39.652L320.839 47.5H317.527ZM327.607 28.384L324.547 37.024L332.971 37.024L330.019 28.384C329.515 26.944 328.867 24.748 328.867 24.748H328.795C328.795 24.748 328.111 26.908 327.607 28.384ZM346.523 47.5V21.76L349.943 21.76L361.679 39.652C362.543 40.984 363.551 42.964 363.551 42.964H363.623V21.76H366.647V47.5H363.335L351.527 29.572C350.699 28.312 349.619 26.368 349.619 26.368H349.547V47.5H346.523Z" fill="currentColor"/>
+            </svg>
+            <p style="font-size: 1.1rem; color: var(--fg); font-weight: 300;">Organic performance meets electronic sculpture. A Komponist / LNFG project.</p>
+        </div>
+        <div style="text-align: right;">
+            <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted);">© 2026 LNFG RECORDS — CLYDEBANK / GLASGOW</p>
+        </div>
+    </footer>
+
+</body>
+</html>
